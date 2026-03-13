@@ -106,9 +106,9 @@ section { padding: 4rem 0; }
 
 /* --- Hero Logo --- */
 .hero-logo {
-  height: 160px;
+  height: 80px;
   width: auto;
-  margin: 0 auto 2rem;
+  margin: 0 auto 1rem;
 }
 
 /* --- Footer Logo --- */
