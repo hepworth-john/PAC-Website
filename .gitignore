@@ -1,0 +1,13 @@
+# SSH keys
+github
+github.pub
+*.pem
+id_rsa
+id_ed25519
+
+# Claude config
+.claude/
+
+# OS files
+.DS_Store
+Thumbs.db
