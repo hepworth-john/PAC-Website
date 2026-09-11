@@ -90,12 +90,12 @@
           <h3 style="margin-bottom: 1.5rem; color: var(--purple-dark);">Send Us a Message</h3>
 
           <!--
-            SETUP INSTRUCTIONS:
-            1. Go to https://formspree.io and create a free account
-            2. Create a new form and get your form endpoint (looks like https://formspree.io/f/xxxxxxxx)
-            3. Replace "YOUR_FORM_ID" below with your actual form ID
+            This form is wired up to a Supabase Edge Function (see
+            supabase/functions/contact-form and supabase/README.md).
+            Fill in js/supabase-config.js with your project's URL and
+            anon key -- the actual submit handling lives in js/main.js.
           -->
-          <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" id="contactForm">
+          <form id="contactForm">
 
             <div class="form-row">
               <div class="form-group">
@@ -141,7 +141,10 @@
             </div>
 
             <!-- Honeypot to prevent spam -->
-            <input type="text" name="_gotcha" style="display: none;">
+            <input type="text" name="_gotcha" style="display: none;" tabindex="-1" autocomplete="off">
+
+            <!-- Error message (shown by JS if the submission fails) -->
+            <div id="formError" style="display: none; background: #fdecea; color: #9b2c2c; border-radius: var(--radius); padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.9rem;"></div>
 
             <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1rem; padding: 0.9rem;">
               Send Message
@@ -198,6 +201,7 @@
     </div>
   </footer>
 
+  <script src="js/supabase-config.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
