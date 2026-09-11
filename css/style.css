@@ -389,6 +389,23 @@ section { padding: 4rem 0; }
 }
 .modal-close:hover { color: var(--text); }
 
+/* --- Past events --- */
+.past-events-heading {
+  color: var(--purple-dark);
+  font-size: 1.1rem;
+  margin: 0.5rem 0 -0.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.event-card--past { opacity: 0.72; }
+.event-card--past:hover { transform: none; }
+.btn-passed {
+  background: var(--cream-dark);
+  color: var(--text-light);
+  cursor: default;
+}
+.btn-passed:hover { transform: none; box-shadow: none; }
+
 /* --- Contact Form --- */
 .contact-wrap {
   display: grid;

@@ -199,3 +199,63 @@ if (rsvpOverlay && rsvpForm) {
     }
   });
 }
+
+// Events page: group into "upcoming" (soonest first, stays at the
+// top) and "past" (most recently happened first, moved below a
+// divider with an inactive "Event Passed" label instead of an
+// action button). Runs on every load using the visitor's own clock,
+// so the page never needs manual reordering as events happen --
+// each event card just needs a data-date="YYYY-MM-DD" attribute.
+const eventsList = document.querySelector('.events-list');
+
+if (eventsList) {
+  const cards = Array.from(eventsList.querySelectorAll(':scope > .event-card'));
+
+  function todayISO() {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
+  const today = todayISO();
+  const upcoming = [];
+  const past = [];
+
+  cards.forEach((card) => {
+    const date = card.dataset.date;
+    if (!date) {
+      // No date to sort by -- leave it with the upcoming events
+      // rather than risk hiding it in the past group.
+      upcoming.push(card);
+      return;
+    }
+    if (date >= today) {
+      upcoming.push(card);
+    } else {
+      past.push(card);
+    }
+  });
+
+  upcoming.sort((a, b) => a.dataset.date.localeCompare(b.dataset.date));
+  past.sort((a, b) => b.dataset.date.localeCompare(a.dataset.date));
+
+  past.forEach((card) => {
+    card.classList.add('event-card--past');
+    const action = card.querySelector('.event-action');
+    if (action) {
+      action.innerHTML = '<span class="btn btn-passed" style="white-space: nowrap;">Event Passed</span>';
+    }
+  });
+
+  upcoming.forEach((card) => eventsList.appendChild(card));
+
+  if (past.length > 0) {
+    const heading = document.createElement('h3');
+    heading.className = 'past-events-heading';
+    heading.textContent = 'Past Events';
+    eventsList.appendChild(heading);
+    past.forEach((card) => eventsList.appendChild(card));
+  }
+}
