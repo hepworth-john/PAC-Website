@@ -27,11 +27,11 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const VALID_REASONS = new Set([
   "general",
-  "rsvp",
   "join",
   "mailing-list",
   "resources",
   "volunteer",
+  "data-removal",
   "other",
 ]);
 
