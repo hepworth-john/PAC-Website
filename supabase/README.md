@@ -108,3 +108,82 @@ is working, you can tighten this in
 `supabase/functions/contact-form/index.ts` by changing that header to
 `https://icfpac.org`, then redeploy with `supabase functions deploy
 contact-form`.
+
+---
+
+## Adding the event RSVP feature (second table + function)
+
+The events page (`events.html`) now has its own RSVP flow, reusing the same
+Supabase project you already set up above -- no second project needed. It
+adds one more table (`event_rsvps`) and one more Edge Function
+(`event-rsvp`), following the exact same pattern as the contact form.
+
+You've already done the one-time setup (CLI installed, logged in, and
+`supabase link`'d in this repo), so this is just two more commands.
+
+### 1. Run the new migration
+
+From the repo root:
+
+```bash
+supabase db push
+```
+
+This applies whatever hasn't been run yet against your linked project --
+it'll pick up `supabase/migrations/20260911173922_create_event_rsvps.sql`
+automatically. (Or paste that file's contents into the SQL Editor in the
+dashboard, same as before, if you'd rather not use the CLI for this step.)
+
+### 2. Deploy the new function
+
+```bash
+supabase functions deploy event-rsvp
+```
+
+### 3. Config
+
+Nothing to fill in manually this time -- `js/supabase-config.js` already
+has `SUPABASE_EVENT_RSVP_URL` pointing at
+`https://iqikfwhjohuoentncwxi.supabase.co/functions/v1/event-rsvp`, reusing
+the same project URL and anon key as the contact form.
+
+### 4. Test, then commit and push
+
+Test the same two ways as the contact form: submit a real RSVP from
+`events.html` in your browser, or hit the function directly with curl,
+e.g.:
+
+```bash
+curl -X POST "https://iqikfwhjohuoentncwxi.supabase.co/functions/v1/event-rsvp" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_ANON_KEY" \
+  -H "apikey: YOUR_ANON_KEY" \
+  -d '{"eventId":"pno-spring-2026-03-20","eventName":"Test Event","firstName":"Test","lastName":"RSVP","email":"test@example.com","guests":2,"notes":"testing"}'
+```
+
+Check **Table Editor > event_rsvps** in Supabase to confirm it landed, then
+commit and push as usual.
+
+### Adding a new event later
+
+Each RSVP-able event card in `events.html` has a button like:
+
+```html
+<button type="button" class="btn btn-primary rsvp-trigger"
+  data-event-id="pno-spring-2026-03-20"
+  data-event-name="Parents Night Out — Spring Edition (Mar 20)">RSVP</button>
+```
+
+To add RSVP to a new event card, copy that button pattern and give it a
+new, unique `data-event-id` (anything URL/slug-safe works, e.g.
+`event-name-YYYY-MM-DD`) and a human-readable `data-event-name`. No
+database or function changes are needed -- the table and function accept
+any event ID/name pair.
+
+### Viewing RSVPs
+
+Check **Table Editor > event_rsvps** in the Supabase dashboard. You can
+filter by `event_id` to see who's coming to a specific event, and
+`guest_count` for headcounts. Resubmitting the form with the same email
+for the same event updates that person's existing row instead of adding a
+duplicate.

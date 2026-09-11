@@ -69,7 +69,7 @@
             </div>
           </div>
           <div class="event-action">
-            <a href="contact.html" class="btn btn-primary" style="white-space: nowrap;">RSVP</a>
+            <button type="button" class="btn btn-primary rsvp-trigger" style="white-space: nowrap;" data-event-id="pno-spring-2026-03-20" data-event-name="Parents Night Out — Spring Edition (Mar 20)">RSVP</button>
           </div>
         </div>
 
@@ -106,7 +106,7 @@
             </div>
           </div>
           <div class="event-action">
-            <a href="contact.html" class="btn btn-primary" style="white-space: nowrap;">RSVP</a>
+            <button type="button" class="btn btn-primary rsvp-trigger" style="white-space: nowrap;" data-event-id="dads-day-out-2026-06-14" data-event-name="Dad's Day Out (Jun 14)">RSVP</button>
           </div>
         </div>
 
@@ -124,7 +124,7 @@
             </div>
           </div>
           <div class="event-action">
-            <a href="contact.html" class="btn btn-primary" style="white-space: nowrap;">RSVP</a>
+            <button type="button" class="btn btn-primary rsvp-trigger" style="white-space: nowrap;" data-event-id="pno-summer-2026-08-21" data-event-name="Parents Night Out — Summer Edition (Aug 21)">RSVP</button>
           </div>
         </div>
 
@@ -143,7 +143,7 @@
             </div>
           </div>
           <div class="event-action">
-            <a href="contact.html" class="btn btn-primary" style="white-space: nowrap;">RSVP</a>
+            <button type="button" class="btn btn-primary rsvp-trigger" style="white-space: nowrap;" data-event-id="idaho-connection-2026-09-13" data-event-name="Idaho Connection Event (Sep 13)">RSVP</button>
           </div>
         </div>
 
@@ -179,7 +179,7 @@
             </div>
           </div>
           <div class="event-action">
-            <a href="contact.html" class="btn btn-primary" style="white-space: nowrap;">RSVP</a>
+            <button type="button" class="btn btn-primary rsvp-trigger" style="white-space: nowrap;" data-event-id="pno-fall-2026-11-06" data-event-name="Parents Night Out — Fall Edition (Nov 6)">RSVP</button>
           </div>
         </div>
 
@@ -247,6 +247,72 @@
     </div>
   </footer>
 
+  <!-- RSVP Modal -->
+  <div class="modal-overlay" id="rsvpOverlay" style="display: none;">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="rsvpModalTitle">
+      <button type="button" class="modal-close" id="rsvpClose" aria-label="Close">&times;</button>
+
+      <div id="rsvpFormWrap">
+        <p class="section-label">RSVP</p>
+        <h3 id="rsvpModalTitle" style="color: var(--purple-dark); margin-bottom: 1.25rem;">Event</h3>
+
+        <form id="rsvpForm">
+          <input type="hidden" id="rsvpEventId" name="eventId">
+          <input type="hidden" id="rsvpEventName" name="eventName">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="rsvpFirstName">First Name *</label>
+              <input type="text" id="rsvpFirstName" name="firstName" required placeholder="Jane">
+            </div>
+            <div class="form-group">
+              <label for="rsvpLastName">Last Name *</label>
+              <input type="text" id="rsvpLastName" name="lastName" required placeholder="Smith">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="rsvpEmail">Email Address *</label>
+            <input type="email" id="rsvpEmail" name="email" required placeholder="jane@example.com">
+          </div>
+
+          <div class="form-group">
+            <label for="rsvpGuests">Number of Guests (including you) *</label>
+            <input type="number" id="rsvpGuests" name="guests" min="1" max="20" value="1" required>
+          </div>
+
+          <div class="form-group">
+            <label for="rsvpNotes">Notes</label>
+            <textarea id="rsvpNotes" name="notes" placeholder="Dietary restrictions, accessibility needs, etc. (optional)" style="min-height: 80px;"></textarea>
+          </div>
+
+          <!-- Honeypot to prevent spam -->
+          <input type="text" name="_gotcha" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <!-- Error message (shown by JS if the submission fails) -->
+          <div id="rsvpError" style="display: none; background: #fdecea; color: #9b2c2c; border-radius: var(--radius); padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.9rem;"></div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1rem; padding: 0.9rem;">
+            Confirm RSVP
+          </button>
+
+          <p style="font-size: 0.8rem; color: var(--text-light); text-align: center; margin-top: 0.75rem;">
+            Already RSVP'd? Submitting again with the same email updates your response.
+          </p>
+        </form>
+      </div>
+
+      <!-- Success message (shown by JS after submit) -->
+      <div id="rsvpSuccess" style="display: none; text-align: center; padding: 1.5rem 0;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+        <h3 style="color: var(--teal); margin-bottom: 0.5rem;">You're on the list!</h3>
+        <p style="color: var(--text-light);">We've saved your RSVP. See you there!</p>
+        <button type="button" class="btn btn-teal" id="rsvpDone" style="margin-top: 1rem;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/supabase-config.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
